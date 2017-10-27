@@ -72,14 +72,6 @@ public class FacebookBoImpl implements FacebookBo {
 			// to access the individual object
 			for (Post post : myFeedPage) {
 
-				/*try {
-					System.out.println("**********************************");
-					System.out.println("POST   : "+ mapper.writeValueAsString(post));
-				} catch (Exception e) {
-					System.out.println("Impossible de lire le JSON");
-				}
-				 */
-
 				if (null!=post.getComments() && post.getComments().getData()!=null) {
 
 					for ( Comment comment : post.getComments().getData()) {
@@ -96,7 +88,6 @@ public class FacebookBoImpl implements FacebookBo {
 								System.out.println("UserId :"+comment.getFrom().getId());
 								System.out.println("Message :"+comment.getMessage());
 								System.out.println("Sentiment: score="+ feeling.getScore()+", magnitude="+ feeling.getMagnitude());
-
 								
 							}
 						} catch (Exception e) {
