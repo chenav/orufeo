@@ -1,4 +1,4 @@
-# orufeo
+# Orufeo
 Orufeo AI &amp; BigData Examples
 
 The ai package shows different examples of:
