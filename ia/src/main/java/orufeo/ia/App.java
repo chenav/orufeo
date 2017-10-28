@@ -1,12 +1,6 @@
 package orufeo.ia;
 
-import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.language.v1.Document;
 import com.google.cloud.language.v1.Document.Type;
 
