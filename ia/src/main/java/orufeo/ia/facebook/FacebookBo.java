@@ -7,4 +7,6 @@ public interface FacebookBo {
 	void analyzeImages(String pagename);
 
 	void analyzeOCR(String pagename);
+	
+	void analyzeLogo(String pagename);
 }

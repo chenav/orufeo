@@ -16,7 +16,7 @@ public class App
 
 	public static void main(String... args) throws Exception {
 
-		int mode = 3;
+		int mode = 4;
 
 		// Instantiates a client
 		try (LanguageServiceClient language = LanguageServiceClient.create()) {
@@ -56,6 +56,14 @@ public class App
 				FacebookBo fbBo = new FacebookBoImpl();
 								
 				fbBo.analyzeOCR("cocacolafrance");
+				
+			}
+			
+			if (4==mode) {
+				
+				FacebookBo fbBo = new FacebookBoImpl();
+								
+				fbBo.analyzeLogo("cocacolafrance");
 				
 			}
 		}
