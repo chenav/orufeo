@@ -88,13 +88,72 @@ public class VisionAnalyzer {
 			}
 
 			for (EntityAnnotation annotation : res.getLabelAnnotationsList()) {
-						
+
 				annotation.getAllFields().forEach((k, v)-> {
 					if (!k.toString().contains("mid"))
 						System.out.println(k.getName() +": "+ v.toString());
 				});
-				
+
 			}
+		}
+
+
+	}
+
+	public void analyzeOCR(String urlImage) {
+
+		List<AnnotateImageRequest> requests = new ArrayList<>();
+
+		try {
+
+			ByteString imgBytes = null;
+
+			URL url = new URL(urlImage);
+			InputStream is = null;
+			try {
+				is = url.openStream();
+				byte[] imageBytes = IOUtils.toByteArray(is);
+				imgBytes = ByteString.copyFrom(imageBytes);
+			} catch (IOException e) {
+				System.err.printf ("Failed while reading bytes from %s: %s%n", url.toExternalForm(), e.getMessage());
+				e.printStackTrace ();
+				// Perform any other exception handling that's appropriate.
+			} finally {
+				if (is != null) { is.close(); }
+			}
+
+			if (null!=imgBytes) {
+				// Builds the image annotation request
+				Image img = Image.newBuilder().setContent(imgBytes).build();
+				Feature feat = Feature.newBuilder().setType(Type.TEXT_DETECTION).build();
+				AnnotateImageRequest request = AnnotateImageRequest.newBuilder()
+						.addFeatures(feat)
+						.setImage(img)
+						.build();
+				requests.add(request);
+			}
+
+		} catch (Exception e) {
+			log.error("Probleme de recup d'image: ", e);
+		}
+
+		// Performs label detection on the image file
+		BatchAnnotateImagesResponse response = vision.batchAnnotateImages(requests);
+		List<AnnotateImageResponse> responses = response.getResponsesList();
+
+		for (AnnotateImageResponse res : responses) {
+			if (res.hasError()) {
+				System.out.printf("Error: %s\n", res.getError().getMessage());
+			}
+
+
+			// For full list of available annotations, see http://g.co/cloud/vision/docs
+			for (EntityAnnotation anno : res.getTextAnnotationsList()) {
+				System.out.printf("Text: %s\n", anno.getDescription());
+				System.out.printf("Position : %s\n", anno.getBoundingPoly());
+			}
+
+
 		}
 
 

@@ -9,16 +9,14 @@ import orufeo.ia.facebook.FacebookBoImpl;
 
 import com.google.cloud.language.v1.LanguageServiceClient;
 import com.google.cloud.language.v1.Sentiment;
-/**
- * Hello world!
- *
- */
+
+
 public class App 
 {
 
 	public static void main(String... args) throws Exception {
 
-		int mode = 2;
+		int mode = 3;
 
 		// Instantiates a client
 		try (LanguageServiceClient language = LanguageServiceClient.create()) {
@@ -50,6 +48,14 @@ public class App
 				FacebookBo fbBo = new FacebookBoImpl();
 								
 				fbBo.analyzeImages("cocacolafrance");
+				
+			}
+			
+			if (3==mode) {
+				
+				FacebookBo fbBo = new FacebookBoImpl();
+								
+				fbBo.analyzeOCR("cocacolafrance");
 				
 			}
 		}

@@ -115,5 +115,28 @@ public class FacebookBoImpl implements FacebookBo {
 	}
 
 
+	@Override
+	public void analyzeOCR(String pagename) {
+		Connection<Post> myFeed = collectFeed(pagename);
+
+		for (List<Post> myFeedPage : myFeed) {
+
+			for (Post post : myFeedPage) {
+				String urlPicture = post.getFullPicture();
+
+				if (null!=urlPicture) {
+
+					System.out.println("Picture :"+urlPicture);
+					
+					VisionAnalyzer.getInstance().analyzeOCR(urlPicture);
+					
+
+				}
+			}
+		}
+		
+	}
+
+
 
 }
