@@ -10,7 +10,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.vision.v1.AnnotateImageRequest;
 import com.google.cloud.vision.v1.AnnotateImageResponse;
 import com.google.cloud.vision.v1.BatchAnnotateImagesResponse;
@@ -28,7 +27,6 @@ public class VisionAnalyzer {
 	private static VisionAnalyzer INSTANCE = new VisionAnalyzer(); 
 	private static final Logger log = LogManager.getLogger(VisionAnalyzer.class);
 	private static ImageAnnotatorClient vision;
-	private ObjectMapper mapper = new ObjectMapper();
 
 	private VisionAnalyzer() {
 
