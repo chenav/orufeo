@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.language.v1.Sentiment;
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
@@ -26,7 +25,7 @@ import orufeo.ia.gcloud.VisionAnalyzer;
 public class FacebookBoImpl implements FacebookBo {
 
 	private static final Logger log = LogManager.getLogger(FacebookBoImpl.class);
-	private ObjectMapper mapper = new ObjectMapper();
+	
 	
 	private Connection<Post> collectFeed(String pagename) {
 		
@@ -153,6 +152,28 @@ public class FacebookBoImpl implements FacebookBo {
 					
 					VisionAnalyzer.getInstance().analyzeLogo(urlPicture);
 					
+
+				}
+			}
+		}
+		
+	}
+
+
+	@Override
+	public void analyzeFace(String pagename) {
+		Connection<Post> myFeed = collectFeed(pagename);
+
+		for (List<Post> myFeedPage : myFeed) {
+
+			for (Post post : myFeedPage) {
+				String urlPicture = post.getFullPicture();
+
+				if (null!=urlPicture) {
+
+					System.out.println("Picture :"+urlPicture);
+					
+					VisionAnalyzer.getInstance().analyzeFace(urlPicture);
 
 				}
 			}

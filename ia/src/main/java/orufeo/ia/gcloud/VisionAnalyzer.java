@@ -10,10 +10,13 @@ import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.vision.v1.AnnotateImageRequest;
 import com.google.cloud.vision.v1.AnnotateImageResponse;
 import com.google.cloud.vision.v1.BatchAnnotateImagesResponse;
 import com.google.cloud.vision.v1.EntityAnnotation;
+import com.google.cloud.vision.v1.FaceAnnotation;
+import com.google.cloud.vision.v1.FaceAnnotation.Landmark;
 import com.google.cloud.vision.v1.Feature;
 import com.google.cloud.vision.v1.Feature.Type;
 import com.google.cloud.vision.v1.Image;
@@ -25,6 +28,7 @@ public class VisionAnalyzer {
 	private static VisionAnalyzer INSTANCE = new VisionAnalyzer(); 
 	private static final Logger log = LogManager.getLogger(VisionAnalyzer.class);
 	private static ImageAnnotatorClient vision;
+	private ObjectMapper mapper = new ObjectMapper();
 
 	private VisionAnalyzer() {
 
@@ -210,12 +214,86 @@ public class VisionAnalyzer {
 			for (EntityAnnotation annotation : res.getLogoAnnotationsList()) {
 		        System.out.println(annotation.getDescription());
 		      }
-
-
 		}
-
 
 	}
 
+	public void analyzeFace(String urlImage) {
+
+		List<AnnotateImageRequest> requests = new ArrayList<>();
+
+		try {
+
+			ByteString imgBytes = null;
+
+			URL url = new URL(urlImage);
+			InputStream is = null;
+			try {
+				is = url.openStream();
+				byte[] imageBytes = IOUtils.toByteArray(is);
+				imgBytes = ByteString.copyFrom(imageBytes);
+			} catch (IOException e) {
+				System.err.printf ("Failed while reading bytes from %s: %s%n", url.toExternalForm(), e.getMessage());
+				e.printStackTrace ();
+				// Perform any other exception handling that's appropriate.
+			} finally {
+				if (is != null) { is.close(); }
+			}
+
+			if (null!=imgBytes) {
+				// Builds the image annotation request
+				Image img = Image.newBuilder().setContent(imgBytes).build();
+				Feature feat = Feature.newBuilder().setType(Type.FACE_DETECTION).build();
+				AnnotateImageRequest request = AnnotateImageRequest.newBuilder()
+						.addFeatures(feat)
+						.setImage(img)
+						.build();
+				requests.add(request);
+			}
+
+		} catch (Exception e) {
+			log.error("Probleme de recup d'image: ", e);
+		}
+
+		// Performs label detection on the image file
+		BatchAnnotateImagesResponse response = vision.batchAnnotateImages(requests);
+		List<AnnotateImageResponse> responses = response.getResponsesList();
+
+		for (AnnotateImageResponse res : responses) {
+			if (res.hasError()) {
+				System.out.printf("Error: %s\n", res.getError().getMessage());
+			}
+			
+			
+
+			for (FaceAnnotation annotation : res.getFaceAnnotationsList()) {
+		        try {
+		        	 System.out.printf("anger: %s\njoy: %s\nsurprise: %s\nposition: %s",
+		             annotation.getAngerLikelihood(),
+		             annotation.getJoyLikelihood(),
+		             annotation.getSurpriseLikelihood(),
+		             annotation.getBoundingPoly());
+		        	 
+		        	 if (null!=annotation.getLandmarksList()) {
+		        		 
+		        		 for (Landmark lm :annotation.getLandmarksList() ) {
+		        			 
+		        			 lm.getAllFields().forEach((k, v)-> {
+		     						System.out.println(k.getName() +": "+ v.toString());
+		     				});
+		        			 
+		        		 }
+		        		 
+		        	 }
+		        	 
+		        	//System.out.println(mapper.writeValueAsString(annotation.getLandmarksList()));
+		        } catch (Exception e) {
+		        	log.error("Problem in face detection: ", e);
+		        }
+		      }
+		}
+
+	}	
+	
 
 }

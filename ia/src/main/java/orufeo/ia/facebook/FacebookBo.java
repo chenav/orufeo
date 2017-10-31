@@ -9,4 +9,6 @@ public interface FacebookBo {
 	void analyzeOCR(String pagename);
 	
 	void analyzeLogo(String pagename);
+	
+	void analyzeFace(String pagename);
 }
