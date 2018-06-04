@@ -16,7 +16,7 @@ public class App
 
 	public static void main(String... args) throws Exception {
 
-		int mode = 5;
+		int mode = 1;
 
 		// Instantiates a client
 		try (LanguageServiceClient language = LanguageServiceClient.create()) {
@@ -39,7 +39,7 @@ public class App
 
 				FacebookBo fbBo = new FacebookBoImpl();
 
-				fbBo.searchPage("cocacolafrance");
+				fbBo.searchPage("998589190158511"); //cocacolafrance
 
 			}
 
@@ -47,7 +47,7 @@ public class App
 
 				FacebookBo fbBo = new FacebookBoImpl();
 
-				fbBo.analyzeImages("cocacolafrance");
+				fbBo.analyzeImages("998589190158511");
 
 			}
 
@@ -55,7 +55,7 @@ public class App
 
 				FacebookBo fbBo = new FacebookBoImpl();
 
-				fbBo.analyzeOCR("cocacolafrance");
+				fbBo.analyzeOCR("998589190158511");
 
 			}
 
@@ -63,7 +63,7 @@ public class App
 
 				FacebookBo fbBo = new FacebookBoImpl();
 
-				fbBo.analyzeLogo("cocacolafrance");
+				fbBo.analyzeLogo("820882001277849");
 
 			}
 
@@ -71,7 +71,7 @@ public class App
 
 				FacebookBo fbBo = new FacebookBoImpl();
 
-				fbBo.analyzeFace("cocacolafrance");
+				fbBo.analyzeFace("998589190158511");
 
 			}
 		}

@@ -25,17 +25,8 @@ import orufeo.ia.gcloud.VisionAnalyzer;
 public class FacebookBoImpl implements FacebookBo {
 
 	private static final Logger log = LogManager.getLogger(FacebookBoImpl.class);
-	
-	
-	private Connection<Post> collectFeed(String pagename) {
-		
-		AccessToken accessToken = new DefaultFacebookClient(Version.VERSION_2_3).obtainAppAccessToken(ConfigurationObject.MY_APP_ID, ConfigurationObject.MY_APP_SECRET);
-		FacebookClient facebookClient23 = new DefaultFacebookClient(accessToken.getAccessToken(), Version.VERSION_2_3);
 
-		//User user = facebookClient23.fetchObject("me", User.class);
-		Page page = facebookClient23.fetchObject(pagename, Page.class, Parameter.with("fields","name,id, picture, likes"));
-		return  facebookClient23.fetchConnection(page.getId()+"/feed", Post.class, Parameter.with("fields", "comments, full_picture")); //message,picture, likes, from,
-	}
+
 
 
 	@Override
@@ -87,7 +78,7 @@ public class FacebookBoImpl implements FacebookBo {
 								System.out.println("UserId :"+comment.getFrom().getId());
 								System.out.println("Message :"+comment.getMessage());
 								System.out.println("Sentiment: score="+ feeling.getScore()+", magnitude="+ feeling.getMagnitude());
-								
+
 							}
 						} catch (Exception e) {
 							System.out.println("ERROR in analysis: "+e.getMessage());
@@ -100,17 +91,6 @@ public class FacebookBoImpl implements FacebookBo {
 		}
 
 
-	}
-
-	private User searchUser(String id) {
-
-		AccessToken accessToken = new DefaultFacebookClient(Version.VERSION_2_3).obtainAppAccessToken(ConfigurationObject.MY_APP_ID, ConfigurationObject.MY_APP_SECRET);
-
-		FacebookClient facebookClient23 = new DefaultFacebookClient(accessToken.getAccessToken(), Version.VERSION_2_3);
-
-		User user = facebookClient23.fetchObject(id, User.class, Parameter.with("fields","about,age_range, birthday,context, education,email,gender, first_name, last_name, relationship_status, work"));
-
-		return user;
 	}
 
 
@@ -126,14 +106,14 @@ public class FacebookBoImpl implements FacebookBo {
 				if (null!=urlPicture) {
 
 					System.out.println("Picture :"+urlPicture);
-					
+
 					VisionAnalyzer.getInstance().analyzeOCR(urlPicture);
-					
+
 
 				}
 			}
 		}
-		
+
 	}
 
 
@@ -149,14 +129,14 @@ public class FacebookBoImpl implements FacebookBo {
 				if (null!=urlPicture) {
 
 					System.out.println("Picture :"+urlPicture);
-					
+
 					VisionAnalyzer.getInstance().analyzeLogo(urlPicture);
-					
+
 
 				}
 			}
 		}
-		
+
 	}
 
 
@@ -172,15 +152,53 @@ public class FacebookBoImpl implements FacebookBo {
 				if (null!=urlPicture) {
 
 					System.out.println("Picture :"+urlPicture);
-					
+
 					VisionAnalyzer.getInstance().analyzeFace(urlPicture);
 
 				}
 			}
 		}
-		
+
 	}
 
+	//****************************
+	//
+	//   PRIVATE METHODS
+	//
+	//
+	//****************************
+
+	private FacebookClient initFacebookClient() {
+
+		FacebookClient facebookClient30 = null;
+
+		if (null==ConfigurationObject.ACTIVETOKEN && !ConfigurationObject.ACTIVETOKEN.isEmpty()) {
+			AccessToken accessToken = new DefaultFacebookClient(Version.VERSION_3_0).obtainAppAccessToken(ConfigurationObject.MY_APP_ID, ConfigurationObject.MY_APP_SECRET);
+			facebookClient30 = new DefaultFacebookClient(accessToken.getAccessToken(), Version.VERSION_3_0);
+		} else 
+			facebookClient30 = new DefaultFacebookClient(ConfigurationObject.ACTIVETOKEN, Version.VERSION_3_0);
+
+		return facebookClient30;
+	}
+	
+	private Connection<Post> collectFeed(String pagename) {
+
+		FacebookClient facebookClient30 = initFacebookClient();
+
+		//User user = facebookClient23.fetchObject("me", User.class);
+		Page page = facebookClient30.fetchObject(pagename, Page.class, Parameter.with("fields","name,id, picture, likes"));
+		return  facebookClient30.fetchConnection(page.getId()+"/feed", Post.class, Parameter.with("fields", "comments, full_picture")); //message,picture, likes, from,
+	}
+
+
+	private User searchUser(String id) {
+
+		FacebookClient facebookClient30 = initFacebookClient();
+
+		User user = facebookClient30.fetchObject(id, User.class, Parameter.with("fields","about,age_range, birthday,context, education,email,gender, first_name, last_name, relationship_status, work"));
+
+		return user;
+	}
 
 
 }

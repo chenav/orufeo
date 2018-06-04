@@ -27,14 +27,14 @@
 			<version>1.16.6</version>
 		</dependency>
 		<dependency>
-			<groupId>com.google.cloud</groupId>
-			<artifactId>google-cloud-language</artifactId>
-			<version>0.25.0-beta</version>
+		  <groupId>com.google.cloud</groupId>
+		  <artifactId>google-cloud-language</artifactId>
+		  <version>1.31.0</version>
 		</dependency>
 		<dependency>
-			<groupId>com.google.cloud</groupId>
-			<artifactId>google-cloud-vision</artifactId>
-			<version>0.25.0-beta</version>
+		  <groupId>com.google.cloud</groupId>
+		  <artifactId>google-cloud-vision</artifactId>
+		  <version>1.31.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
@@ -46,10 +46,11 @@
 			<artifactId>log4j-core</artifactId>
 			<version>2.9.1</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.restfb/restfb -->
 		<dependency>
-			<groupId>com.restfb</groupId>
-			<artifactId>restfb</artifactId>
-			<version>2.0.0-rc.3</version>
+		    <groupId>com.restfb</groupId>
+		    <artifactId>restfb</artifactId>
+		    <version>2.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
