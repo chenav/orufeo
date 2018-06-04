@@ -16,7 +16,7 @@ public class App
 
 	public static void main(String... args) throws Exception {
 
-		int mode = 1;
+		int mode = 5;
 
 		// Instantiates a client
 		try (LanguageServiceClient language = LanguageServiceClient.create()) {

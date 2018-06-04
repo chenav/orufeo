@@ -40,8 +40,8 @@ public class FacebookBoImpl implements FacebookBo {
 				String urlPicture = post.getFullPicture();
 
 				if (null!=urlPicture) {
-
-					System.out.println("Picture :"+urlPicture);
+					System.out.println("********************************************************************************");
+					System.out.println("Picture URL:"+urlPicture);
 
 					VisionAnalyzer.getInstance().analyzeLabels(urlPicture);
 
@@ -56,6 +56,8 @@ public class FacebookBoImpl implements FacebookBo {
 
 		Connection<Post> myFeed = collectFeed(pagename);
 
+		NplAnalyzer analyzer = NplAnalyzer.getInstance();
+		
 		for (List<Post> myFeedPage : myFeed) {  //paging made in facebook api
 
 			// Iterate over the list of contained data 
@@ -67,15 +69,14 @@ public class FacebookBoImpl implements FacebookBo {
 					for ( Comment comment : post.getComments().getData()) {
 
 						try {
-							NplAnalyzer analyzer = NplAnalyzer.getInstance();
-
+							
 							Sentiment feeling = analyzer.analyze(comment.getMessage());
 
 							if (feeling.getScore() < 0 && feeling.getMagnitude()>1) {
 								System.out.println("**********************************");
 								System.out.println("Date :"+comment.getCreatedTime());
-								System.out.println("User :"+comment.getFrom().getName());
-								System.out.println("UserId :"+comment.getFrom().getId());
+								System.out.println("User (post RGPD):"+comment.getFrom());
+							//	System.out.println("UserId :"+comment.getFrom().getId());
 								System.out.println("Message :"+comment.getMessage());
 								System.out.println("Sentiment: score="+ feeling.getScore()+", magnitude="+ feeling.getMagnitude());
 
@@ -104,8 +105,8 @@ public class FacebookBoImpl implements FacebookBo {
 				String urlPicture = post.getFullPicture();
 
 				if (null!=urlPicture) {
-
-					System.out.println("Picture :"+urlPicture);
+					System.out.println("********************************************************************************");
+					System.out.println("Picture URL:"+urlPicture);
 
 					VisionAnalyzer.getInstance().analyzeOCR(urlPicture);
 
@@ -127,8 +128,8 @@ public class FacebookBoImpl implements FacebookBo {
 				String urlPicture = post.getFullPicture();
 
 				if (null!=urlPicture) {
-
-					System.out.println("Picture :"+urlPicture);
+					System.out.println("********************************************************************************");
+					System.out.println("Picture URL:"+urlPicture);
 
 					VisionAnalyzer.getInstance().analyzeLogo(urlPicture);
 
@@ -150,8 +151,8 @@ public class FacebookBoImpl implements FacebookBo {
 				String urlPicture = post.getFullPicture();
 
 				if (null!=urlPicture) {
-
-					System.out.println("Picture :"+urlPicture);
+					System.out.println("********************************************************************************");
+					System.out.println("Picture URL:"+urlPicture);
 
 					VisionAnalyzer.getInstance().analyzeFace(urlPicture);
 
