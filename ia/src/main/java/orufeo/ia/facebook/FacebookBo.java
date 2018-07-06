@@ -5,6 +5,8 @@ public interface FacebookBo {
 	void searchPage(String pagename);
 	
 	void analyzeImages(String pagename);
+	
+	void analyzeLandmark(String pagename);
 
 	void analyzeOCR(String pagename);
 	

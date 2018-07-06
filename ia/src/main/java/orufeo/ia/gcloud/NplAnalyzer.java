@@ -15,7 +15,7 @@ public class NplAnalyzer {
 	private static LanguageServiceClient language;
 
 	private NplAnalyzer() {
-
+		
 		if (null==language) {
 			try {
 				language = LanguageServiceClient.create();

@@ -16,7 +16,7 @@ public class App
 
 	public static void main(String... args) throws Exception {
 
-		int mode = 1;
+		int mode = 3;
 
 		// Instantiates a client
 		try (LanguageServiceClient language = LanguageServiceClient.create()) {
@@ -39,23 +39,23 @@ public class App
 
 				FacebookBo fbBo = new FacebookBoImpl();
 
-				fbBo.searchPage("998589190158511"); //cocacolafrance
-
+				fbBo.searchPage("2293804193970339");  //fake page eemi -- 820882001277849 for Coca USA -- 1809938745705498 for Coca France
+			
 			}
 
 			if (2==mode) {
 
 				FacebookBo fbBo = new FacebookBoImpl();
 
-				fbBo.analyzeImages("998589190158511");
+				fbBo.analyzeImages("2293804193970339");  //fake page eemi -- 820882001277849 for Coca USA -- 1809938745705498 for Coca France
 
 			}
-
+			
 			if (3==mode) {
 
 				FacebookBo fbBo = new FacebookBoImpl();
 
-				fbBo.analyzeOCR("998589190158511");
+				fbBo.analyzeLandmark("2293804193970339");  //fake page eemi -- 820882001277849 for Coca USA -- 1809938745705498 for Coca France
 
 			}
 
@@ -63,7 +63,7 @@ public class App
 
 				FacebookBo fbBo = new FacebookBoImpl();
 
-				fbBo.analyzeLogo("820882001277849");
+				fbBo.analyzeOCR("2293804193970339");  //fake page eemi -- 820882001277849 for Coca USA -- 1809938745705498 for Coca France
 
 			}
 
@@ -71,7 +71,15 @@ public class App
 
 				FacebookBo fbBo = new FacebookBoImpl();
 
-				fbBo.analyzeFace("998589190158511");
+				fbBo.analyzeLogo("2293804193970339");  //fake page eemi -- 820882001277849 for Coca USA -- 1809938745705498 for Coca France
+
+			}
+
+			if (6==mode) {
+
+				FacebookBo fbBo = new FacebookBoImpl();
+
+				fbBo.analyzeFace("2293804193970339");  //fake page eemi -- 820882001277849 for Coca USA -- 1809938745705498 for Coca France
 
 			}
 		}
